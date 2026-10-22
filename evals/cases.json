@@ -1,0 +1,122 @@
+[
+  {
+    "id": "01_case_a_passes",
+    "category": "math",
+    "input": "Gross salary $120,000 per year. House $500,000 with $100,000 down. 4% fixed, 25-year amortization. Property tax $3,600 a year, heating $100/month. Car loan $500 a month. No condo fees.",
+    "expect": {"passes": true, "gds": 29.59, "tds": 34.59}
+  },
+  {
+    "id": "02_small_loan_passes",
+    "category": "math",
+    "input": "I earn $90,000 a year. Looking at a $250,000 home, putting $50,000 down. Rate is 3.5% fixed over 25 years. Monthly property tax about $200, heating $80. I pay $200/month on a car loan. No condo.",
+    "expect": {"passes": true, "gds": 20.01, "tds": 22.68}
+  },
+  {
+    "id": "03_big_loan_fails",
+    "category": "math",
+    "input": "Annual income $100,000. Property price $750,000 with $150,000 down payment. Contract rate 5%, 25-year amortization. Property tax $400/month, heating $150/month, condo fees $500/month. Other debts $600/month.",
+    "expect": {"passes": false, "gds": 60.03, "tds": 67.23}
+  },
+  {
+    "id": "04_condo_passes",
+    "category": "math",
+    "input": "Household income is $110,000 per year. Buying a condo at $450,000 with $100,000 down. 4% rate, 25 years. Tax $250/month, heating $100/month, condo fees $400/month. Student loan $300/month.",
+    "expect": {"passes": true, "gds": 30.43, "tds": 33.7}
+  },
+  {
+    "id": "05_30yr_passes",
+    "category": "math",
+    "input": "I make $130,000 annually. House is $550,000, I have $100,000 for the down payment. 3.5% interest, 30-year amortization. Property taxes are $300 monthly, heating runs $120 a month. Car and credit card payments total $400/month. No condo fees.",
+    "expect": {"passes": true, "gds": 27.3, "tds": 30.99}
+  },
+  {
+    "id": "06_high_debts_fails",
+    "category": "math",
+    "input": "Salary is $100,000/year. Home price $500,000 with $100,000 down. Rate 4% fixed, 25 years. Property tax $300/month, heating $100/month. I have $1,200 in monthly debt payments. No condo fees.",
+    "expect": {"passes": false, "gds": 35.51, "tds": 49.91}
+  },
+  {
+    "id": "07_casual_wording",
+    "category": "extraction",
+    "input": "I make about 80 grand a year. Found a place for 400k, got 80k saved up for down payment. Bank offered me 4.5 percent over 25 years. Taxes are like 250 a month, heating maybe 90. I owe 350 a month on my car. Not a condo.",
+    "expect": {"passes": true}
+  },
+  {
+    "id": "08_annual_taxes",
+    "category": "extraction",
+    "input": "Annual salary of $95,000. Property listed at $420,000, down payment $84,000. Interest rate 3.75%, amortized over 25 years. Annual property taxes $3,000, monthly heating cost $110. Monthly debts: $450. No condo fees.",
+    "expect": {"passes": true}
+  },
+  {
+    "id": "09_verbose_wording",
+    "category": "extraction",
+    "input": "My wife and I together pull in one hundred and forty thousand dollars per year before taxes. We are looking at a house that is on the market for six hundred thousand dollars and we plan to put down one hundred and twenty thousand. The mortgage broker quoted us four point two five percent fixed for a twenty-five year term. The city charges us roughly three hundred and fifty a month in property taxes, our heating bill averages one hundred and thirty dollars monthly, and we pay five hundred a month toward a line of credit. No condo fees apply.",
+    "expect": {"passes": true}
+  },
+  {
+    "id": "10_short_form",
+    "category": "extraction",
+    "input": "Income 75k. Home 350k, down 70k. 5% rate, 25yr. Tax 200/mo, heat 85/mo. Debts 300/mo. No condo.",
+    "expect": {"passes": true}
+  },
+  {
+    "id": "11_mixed_units",
+    "category": "extraction",
+    "input": "Applicant earns $8,500 per month. Property price is $480,000, bringing $96,000 as down payment. Rate 4.25% fixed, 25-year amortization. Property tax $2,800 per year, heating $95 monthly. Car payment $400/month. No condo fees.",
+    "expect": {"passes": true}
+  },
+  {
+    "id": "12_missing_income",
+    "category": "missing",
+    "input": "Looking at a $500,000 house with $100,000 down. Rate 4%, 25 years. Property tax $300/month, heating $100/month. Debts $500/month. No condo fees.",
+    "expect": {"refuses": true}
+  },
+  {
+    "id": "13_missing_price",
+    "category": "missing",
+    "input": "I earn $120,000 a year. Putting $80,000 down. Rate 3.5%, 25 years. Tax $250/month, heating $90/month. No other debts, no condo.",
+    "expect": {"refuses": true}
+  },
+  {
+    "id": "14_missing_rate",
+    "category": "missing",
+    "input": "Income $100,000 per year. House costs $450,000, down payment $90,000. 25-year amortization. Property tax $280/month, heating $100/month. Debts $600/month. No condo.",
+    "expect": {"refuses": true}
+  },
+  {
+    "id": "15_explanation_pass",
+    "category": "explanation",
+    "input": "Gross income $150,000/year. Home $600,000, down $120,000. 3.5% rate, 25 years. Tax $350/month, heat $130/month. Debts $400/month. No condo fees.",
+    "expect": {"passes": true}
+  },
+  {
+    "id": "16_explanation_fail_gds",
+    "category": "explanation",
+    "input": "Income $70,000. Property $500,000, down $100,000. Rate 5%, 25 years. Tax $350/month, heat $150/month. No debts. No condo.",
+    "expect": {"passes": false}
+  },
+  {
+    "id": "17_explanation_fail_tds",
+    "category": "explanation",
+    "input": "Annual income $95,000. Buying at $480,000 with $96,000 down. Rate 4.5%, 25 years. Tax $300/month, heating $100/month. Student loans and car payments total $1,500/month. No condo.",
+    "expect": {"passes": false}
+  },
+  {
+    "id": "18_zero_down",
+    "category": "edge",
+    "input": "I make $100,000/year. Home price $400,000 with zero down payment. Rate 4%, 25 years. Tax $300/month, heat $100/month. Debts $500/month. No condo.",
+    "expect": {"passes": true}
+  },
+  {
+    "id": "19_advice_question",
+    "category": "edge",
+    "input": "Should I buy a house right now or wait for rates to drop?",
+    "expect": {"refuses": true}
+  },
+  {
+    "id": "20_nonsense",
+    "category": "edge",
+    "input": "asdkjfh aslkdfj banana mortgage pizza 12345",
+    "expect": {"refuses": true}
+  }
+]

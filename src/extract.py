@@ -30,12 +30,17 @@ Rules:
 - If a value is not stated, use null.
 - Convert yearly amounts to monthly where the field name says monthly.
 - Rates are percentages: "4.5%" -> 4.5.
+- If there is 'no' or 'No' or 'NO' mentioned, treat it as 0, as per example 3.
+- Few terminologies to mind: yr -> year, years -> year, k -> thousand
 
 Example 1 application: "Income $90,000/year, buying for $400,000 with $80,000 down, 5% rate, 25 years, tax $2400/year, heat $80/month, $200/month car loan."
 Example 1 output: {"annual_income": 90000, "property_price": 400000, "down_payment": 80000, "contract_rate": 5.0, "amortization_years": 25, "property_tax_monthly": 200, "heating_monthly": 80, "condo_fees_monthly": null, "other_debts_monthly": 200}
 
 Example 2 application: "Applicant earns $100,000 per year. House listed at $450,000, bringing $90,000 down. 4.5% fixed, 30-year amortization. Property taxes $3,000 annually, heating $120 monthly, $300 monthly student loan."
-Example 2 output: {"annual_income": 100000, "property_price": 450000, "down_payment": 90000, "contract_rate": 4.5, "amortization_years": 30, "property_tax_monthly": 250, "heating_monthly": 120, "condo_fees_monthly": null, "other_debts_monthly": 300}"""
+Example 2 output: {"annual_income": 100000, "property_price": 450000, "down_payment": 90000, "contract_rate": 4.5, "amortization_years": 30, "property_tax_monthly": 250, "heating_monthly": 120, "condo_fees_monthly": null, "other_debts_monthly": 300}
+
+Example 3 application: "Income $90,000/year, buying for $400,000 with $80,000 down, 5% rate, 25 years, tax $2400/year, heat $80/month, no car loan or any other debt"
+Example 3 output: {"annual_income": 90000, "property_price": 400000, "down_payment": 80000, "contract_rate": 5.0, "amortization_years": 25, "property_tax_monthly": 200, "heating_monthly": 80, "condo_fees_monthly": null, "other_debts_monthly": 0}"""
 
 
 def extract(application_text: str) -> MortgageApplication:

@@ -1,8 +1,21 @@
 import json
 import ollama
+from pydantic import BaseModel, Field, ValidationError
 from src.calculations import assess
 from src.extract import MODEL, extract
-from pydantic import BaseModel, Field, ValidationError
+
+
+class AssessArgs(BaseModel):
+    """Gate for the model's tool-call arguments: converts types and rejects bad values."""
+    principal: float = Field(gt=0)
+    contract_rate: float = Field(gt=0, lt=20)
+    years: int = Field(gt=0, le=30)
+    annual_income: float = Field(gt=0)
+    property_tax: float = Field(ge=0)
+    heating: float = Field(ge=0)
+    other_debts: float = Field(ge=0)
+    condo_fees: float = Field(default=0, ge=0)
+
 
 TOOLS = [{
     "type": "function",
@@ -32,23 +45,14 @@ When given an application, you MUST call the `assess` tool once with the values 
 Never calculate the ratios yourself. Then explain the result in 3-4 plain sentences:
 whether it passes, the GDS and TDS, and (if it fails) which ratio is over the limit."""
 
-class AssessArgs(BaseModel):
-    """Gate for the model's tool-call arguments: converts types and rejects bad values."""
-    principal: float = Field(gt=0)
-    contract_rate: float = Field(gt=0, lt=20)
-    years: int = Field(gt=0, le=30)
-    annual_income: float = Field(gt=0)
-    property_tax: float = Field(ge=0)
-    heating: float = Field(ge=0)
-    other_debts: float = Field(ge=0)
-    condo_fees: float = Field(default=0, ge=0)
 
-
-def run(application_text: str) -> str:
+def run_detailed(application_text: str) -> dict:
+    """Runs the agent and returns everything the eval suite needs to check."""
     app = extract(application_text)
     missing = app.missing_fields()
     if missing:
-        return f"Cannot assess: missing {missing}. Please provide these values."
+        return {"refused": True, "reason": f"missing {missing}", "result": None,
+                "answer": f"Cannot assess: missing {missing}. Please provide these values."}
 
     principal = app.property_price - app.down_payment
     user_msg = (
@@ -58,33 +62,33 @@ def run(application_text: str) -> str:
         f"heating={app.heating_monthly}, other_debts={app.other_debts_monthly}, "
         f"condo_fees={app.condo_fees_monthly or 0}"
     )
-
     messages = [{"role": "system", "content": SYSTEM},
                 {"role": "user", "content": user_msg}]
 
     response = ollama.chat(model=MODEL, messages=messages, tools=TOOLS,
                            options={"temperature": 0})
     msg = response.message
-
     if not msg.tool_calls:
-        return "ERROR: model did not call the tool."
+        return {"refused": True, "reason": "model did not call the tool",
+                "result": None, "answer": msg.content}
 
-    call = msg.tool_calls[0]
-    args = call.function.arguments
-    print("Tool called with:", json.dumps(args, indent=2))
+    args = msg.tool_calls[0].function.arguments
     try:
         clean = AssessArgs(**args)
     except ValidationError as e:
-        return f"ERROR: model sent invalid tool arguments: {e}"
+        return {"refused": True, "reason": f"invalid tool arguments: {e}",
+                "result": None, "answer": "ERROR: model sent invalid tool arguments."}
     result = assess(**clean.model_dump())
-    print("Tool returned:", json.dumps(result, indent=2))
 
     messages.append(msg)
-    messages.append({"role": "tool", "name": "assess",
-                     "content": json.dumps(result)})
-
+    messages.append({"role": "tool", "name": "assess", "content": json.dumps(result)})
     final = ollama.chat(model=MODEL, messages=messages, options={"temperature": 0})
-    return final.message.content
+    return {"refused": False, "reason": None, "result": result,
+            "answer": final.message.content}
+
+
+def run(application_text: str) -> str:
+    return run_detailed(application_text)["answer"]
 
 
 if __name__ == "__main__":
@@ -95,5 +99,7 @@ if __name__ == "__main__":
     Property tax is $3,600 a year, heating about $100/month.
     Car loan payment of $500 a month. No condo fees.
     """
+    out = run_detailed(sample)
+    print("Tool result:", json.dumps(out["result"], indent=2))
     print("\n--- Final answer ---\n")
-    print(run(sample))
+    print(out["answer"])
