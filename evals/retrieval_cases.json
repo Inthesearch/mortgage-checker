@@ -1,0 +1,90 @@
+[
+  {
+    "id": "R01_mqr_rate_at_4pct",
+    "category": "found",
+    "input": "What would be my MQR test rate if my mortgage rate is 4%?",
+    "expect": {"source": "osfi_mqr", "contains": "5.25"}
+  },
+  {
+    "id": "R02_downpayment_types",
+    "category": "found",
+    "input": "How many ways can a mortgage down payment be paid?",
+    "expect": {"source": "cmhc_requirements", "contains": "Traditional"}
+  },
+  {
+    "id": "R03_downpayment_600k",
+    "category": "found",
+    "input": "How much down payment is required if I am paying 600,000 CAD for a house?",
+    "expect": {"source": "cmhc_requirements", "contains": "10% for the remaining portion"}
+  },
+  {
+    "id": "R04_downpayment_435k",
+    "category": "found",
+    "input": "How much down payment is required if the house price is 435,000 Canadian dollars?",
+    "expect": {"source": "cmhc_requirements", "contains": "$500,000 or less"}
+  },
+  {
+    "id": "R05_min_qualifying_rate_floor",
+    "category": "found",
+    "input": "What is the minimum interest rate considered for passing the mortgage stress test?",
+    "expect": {"source": "osfi_mqr", "contains": "5.25"}
+  },
+  {
+    "id": "R06_not_covered_favourite_bank",
+    "category": "not_covered",
+    "input": "Which bank is the favourite among most people?",
+    "expect": {"refuses": true}
+  },
+  {
+    "id": "R07_not_covered_average_rate",
+    "category": "not_covered",
+    "input": "What is the average mortgage interest rate these days?",
+    "expect": {"refuses": true}
+  },
+  {
+    "id": "R08_guideline_type",
+    "category": "found",
+    "input": "What is guidelines that covers mortgage stress testing",
+    "expect": {"source": "osfi_mqr", "contains":  "B-20"}
+  },
+  {"id": "R09_commercial_real_estate",
+    "category": "not_covered",
+    "input": "What is mortgage rules for commercial real estate",
+    "expect": {"refuses":  true}
+  },
+  {"id": "R10_max_value_for_cmch",
+    "category": "found",
+    "input": "What is maximum purchase price for homeowner loans to qualify for CMCH",
+    "expect": {"source": "cmhc_requirements", "contains":  "$1,500,000"}
+  },
+  {
+    "id": "R11_country_of_osfi",
+    "category": "found",
+    "input": "Which country is these rules of CMHC for",
+    "expect": {"source": "cmhc_requirements", "contains":  "Canada"}
+  },
+  {
+    "id": "R12_exception_for_cmhc",
+    "category": "found",
+    "input": "is there any exception to get eligible for cmhc.",
+    "expect": {"source": "cmhc_requirements", "contains":  "The purchase is not subject to any prohibition under the\nProhibition on the Purchase of Residential Property by Non-Canadians Act"}
+  },
+  {
+    "id": "R13_reason_for_higher_interest_rate_eligibility",
+    "category": "found",
+    "input": "Why would it be better if I qualify for higher interest rate",
+    "expect": {"source": "osfi_mqr", "contains":  "mortgage delinquency and default"}
+  },
+  {
+    "id": "R14_last_update_date",
+    "category": "found",
+    "input": "What is the last update date for the conditions",
+    "expect": {"source": "osfi_mqr", "contains":  "2026-01-29"}
+  },
+  {
+    "id": "R15_owner_of_eligibility",
+    "category": "not_covered",
+    "input": "Who owns and update the osfi requirements",
+    "expect": {"refuses": true}
+  }
+]

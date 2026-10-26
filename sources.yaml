@@ -1,0 +1,11 @@
+sources:
+- id: osfi_mqr
+  name: OSFI - Minimum qualifying rate for uninsured mortgages
+  url: https://www.osfi-bsif.gc.ca/en/supervision/financial-institutions/banks/minimum-qualifying-rate-uninsured-mortgages
+  fetch_date: '2026-10-23'
+  sha256: 2ff0589bf526c96b60826de40f3c5737d5fea43e34e2f3475381f2ddb0ee60b1
+- id: cmhc_requirements
+  name: CMHC - General requirements for homeowner mortgage loan insurance
+  url: https://www.cmhc-schl.gc.ca/consumers/home-buying/mortgage-loan-insurance-for-consumers/what-are-the-general-requirements-to-qualify-for-homeowner-mortgage-loan-insurance
+  fetch_date: '2026-10-23'
+  sha256: 2cac0bea40f984519b4629fa76cf8da0cf798816f4a38c4e3ffb2a61e2e324bf

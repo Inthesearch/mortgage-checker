@@ -1,0 +1,36 @@
+Minimum qualifying rate for uninsured mortgages
+Current rate:
+The greater of the mortgage contract rate plus 2% or 5.25%.
+Why the minimum qualifying rate for uninsured mortgages is important
+The minimum qualifying rate (MQR) for uninsured mortgages is a mortgage stress test applied by lenders to borrowers. OSFI obliges federally-regulated lenders to apply this stress test to their borrowers.
+This helps lenders prepare borrowers so they can continue to make mortgage payments even if they experience negative financial shocks such as a reduction in income, an increase in household expenses, or an increase in mortgage interest rates.
+One of the biggest risks for financial institutions is
+real estate secured lending risk
+. If borrowers can’t repay their loans, it could have a negative impact on Canada’s financial system. Qualifying borrowers at a higher interest rate than the actual rate they’ve agreed to with their lender reduces the risks of mortgage delinquency and default.
+How we set the minimum qualifying rate for uninsured mortgages
+We determine the MQR rate based on various data points. We factor in data collected from Canada’s financial institutions. We also consider a range of vulnerability indicators in the housing market and the economic environment. Lastly, we consult with the Department of Finance Canada and the Bank of Canada
+We review the minimum qualifying rate (both the floor and buffer) for uninsured mortgages at least annually.
+Watch a video explaining Guideline B-20
+The buffer and the floor
+There are two components to the minimum qualifying rate for uninsured mortgages:
+The
+buffer
+: Currently set at
+2%
+, this is a safety margin that shows that borrowers can absorb some negative impacts to their finances
+The
+floor
+: Currently set at
+5.25%
+, this number accounts for risks that can emerge from changes in the broader economy
+Stress testing and Guideline B-20
+Guideline B-20
+(Residential Mortgage Underwriting Practices and Procedures) sets out policies and procedures that we expect federally regulated lenders to follow when granting uninsured mortgages. As such, it sets OSFI’s expectation that lenders apply the MQR to most newly underwritten residential mortgagors.
+We do not expect lenders to apply the
+minimum qualifying rate for uninsured straight switches at renewal
+. This applies when a borrower switches their uninsured mortgage from one federally regulated lender to another with no increase to:
+the amortization period, nor
+the loan amount.
+Report a problem or mistake on this page
+Date modified:
+2026-01-29
