@@ -18,13 +18,23 @@ SOURCES = Path("sources.yaml")
 DOCS = Path("docs")
 
 
-def page_text(html: str) -> str:
+SECTION_MARK = "@@SECTION@@"
+
+def page_text(html: str, field) -> str:
     soup = BeautifulSoup(html, "html.parser")
     for tag in soup(["script", "style", "nav", "header", "footer", "form", "noscript"]):
         tag.decompose()
-    main = soup.find("main") or soup.body or soup
-    lines = [ln.strip() for ln in main.get_text("\n").splitlines()]
-    return "\n".join(ln for ln in lines if ln)
+    main = soup.find(field) or soup.body or soup
+    for h in main.find_all(["h1", "h2", "li"]):
+        h.insert_before(f"\n{SECTION_MARK}\n")
+    out = []
+    for ln in (ln.strip() for ln in main.get_text("\n").splitlines()):
+        if ln == SECTION_MARK:
+            if out and out[-1] != "":
+                out.append("")
+        elif ln:
+            out.append(ln)
+    return "\n".join(out)
 
 
 def main() -> None:
@@ -33,7 +43,7 @@ def main() -> None:
     for src in config["sources"]:
         resp = requests.get(src["url"], timeout=30, headers={"User-Agent": "mortgage-checker-portfolio"})
         resp.raise_for_status()
-        text = page_text(resp.text)
+        text = page_text(resp.text, src["field"])
         (DOCS / f"{src['id']}.txt").write_text(text, encoding="utf-8")
         new_hash = hashlib.sha256(text.encode("utf-8")).hexdigest()
         if src.get("sha256") and src["sha256"] != new_hash:
