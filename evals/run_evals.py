@@ -88,7 +88,7 @@ def run_retrieval_case(case):
 # ---------- shared runner ----------
 
 MODES = {
-    "agent": {"cases": HERE / "cases.json", "history": HERE / "history.jsonl", "run": run_agent_case},
+    "agent": {"cases": HERE / "cases.json", "history": HERE / "retrieval_history.jsonl", "run": run_agent_case},
     "retrieval": {"cases": HERE / "retrieval_cases.json", "history": HERE / "retrieval_history.jsonl",
                   "run": run_retrieval_case},
 }
