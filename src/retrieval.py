@@ -2,6 +2,8 @@ import math
 from src.embed import embed_text, load_index
 import numpy as np
 
+RELEVANCE_THRESHOLD = 0.689
+
 def dot_product(a, b):
     result = 0
     for i in range(len(a)):

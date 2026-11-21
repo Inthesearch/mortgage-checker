@@ -13,13 +13,14 @@ import json
 import sys
 from datetime import datetime
 from pathlib import Path
+from src.retrieval import RELEVANCE_THRESHOLD
 
 from src.agent import run_detailed
 
 HERE = Path(__file__).parent
 TOLERANCE = 0.01  # agent mode: GDS/TDS may differ by at most 0.01
 K = 3  # retrieval mode: hit@3
-RELEVANCE_THRESHOLD = 0.0  # retrieval mode: TODO set from your data in the Nov 16-22 week.
+# RELEVANCE_THRESHOLD = 0.689  # retrieval mode:
 # At 0.0 the "not covered" cases fail on purpose, until you tune this number.
 
 
@@ -59,14 +60,18 @@ def run_agent_case(case):
 def check_retrieval(case, hits):
     """Compare the retrieved chunks with what the case expects. Returns a list of problems."""
     expect = case["expect"]
+    top_score = hits[0]["score"] if hits else 0.0
 
+    # not-covered cases: the only thing that matters is whether the score triggers a refusal
     if "refuses" in expect:
-        top_score = hits[0]["score"] if hits else 0.0
         would_refuse = top_score < RELEVANCE_THRESHOLD
         if would_refuse != expect["refuses"]:
-            return [f"top score {top_score:.2f}, threshold {RELEVANCE_THRESHOLD}: "
+            return [f"top score {top_score:.3f}, threshold {RELEVANCE_THRESHOLD}: "
                     f"would_refuse={would_refuse}, expected {expect['refuses']}"]
         return []
+
+    # found cases: the right chunk must be in the top K AND score high enough to be trusted
+    problems = []
 
     top = hits[:K]
     found = any(
@@ -75,10 +80,14 @@ def check_retrieval(case, hits):
     )
     if not found:
         got = [f"{h['source']}/{h.get('section_id', '?')}" for h in top]
-        return [f"expected source={expect['source']} containing {expect.get('contains')!r} "
-                f"in top {K}; got {got}"]
-    return []
+        problems.append(f"expected source={expect['source']} containing {expect.get('contains')!r} "
+                        f"in top {K}; got {got}")
 
+    if top_score < RELEVANCE_THRESHOLD:
+        problems.append(f"top score {top_score:.3f} below threshold {RELEVANCE_THRESHOLD}: "
+                        f"would refuse a question the documents answer")
+
+    return problems
 
 def run_retrieval_case(case):
     from src.retrieval import search_rules  # imported here so agent mode works before retrieval exists
